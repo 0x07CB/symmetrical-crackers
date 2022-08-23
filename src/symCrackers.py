@@ -89,3 +89,16 @@ class SMTP_Bruter(object):
                 return True
         return False
     
+
+def main():
+    args = argparser.parse_args()
+    smtp = SMTP_Bruter(args.server)
+    wordlist = smtp.load_wordlist(args.passwords)
+    usernameslist = smtp.load_usernameslist(args.logins)
+    if args.verify_users:
+        smtp.verify_user(usernameslist[0])
+    else:
+        smtp.brute_force_users(usernameslist, wordlist)
+
+if __name__ == '__main__':
+    main()

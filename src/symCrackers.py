@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 #coding: utf-8
 
+from ast import arg
 import os
 import sys
 import time
@@ -17,12 +18,18 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 
+argparser = argparse.ArgumentParser(description='Crack SMTP accounts')
+argparser.add_argument('-l', '--logins', help='File list of accounts', required=True)
+argparser.add_argument('-p', '--passwords', help='File list of passwords', required=True)
+argparser.add_argument('-s', '--server', help='SMTP server', required=True)
+argparser.add_argument('--verify', help='Verify accounts, this option use SMTP VRFY ... but Many sites disable SMTP VRFY in order to foil spammers.', action='store_true')
+
 
 class SMTP_Bruter(object):
     def __init__(self, host, port=25):
         self.host = host
         self.port = port
-
+ 
     def setter(self, host, port):
         self.host = host
         self.port = port
